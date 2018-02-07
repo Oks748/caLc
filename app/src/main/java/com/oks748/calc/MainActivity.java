@@ -14,13 +14,8 @@ public class MainActivity extends AppCompatActivity {
     private String num1 = "";
     private String num2 = "";
     private String operator = "";
-    private String result = "";
+    //private String result = "";
     private boolean pressIs = false;
-    private boolean pressSign = false;
-    private boolean pressPercent = false;
-    private boolean pressSqrt = false;
-    private boolean press1Div = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +23,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         screen = findViewById(R.id.textView);
-        screen.setText(result);
+        screen.setText(num1);
     }
 
     public void onClickNumber(View v){
         if(pressIs == true) {
-            clearC();
+            num1 = "";
+            num2 = "";
+            operator = "";
             pressIs = false;
         }
 
@@ -78,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickPercent(View v) {
-       if (operator != "" && num2 != "") {
+       if (num2 != "") {
            num2 = String.valueOf(Double.valueOf(num2)/100);
            screen.setText(num1+operator+num2);
        }else if(num1 != "" && operator == "") {
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
    }
 
    public void onClick1Div(View v){
-       if (operator != "" && num2 != "") {
+       if (num2 != "") {
            try {
                num2 = String.valueOf(1 / Double.valueOf(num2));
            } catch (Exception e) {
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickSign(View v){
-       if(operator != "" && num2 != "") {
+       if(num2 != "") {
             num2 = String.valueOf((-1) * Double.valueOf(num2));
             num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
             if (num2.indexOf("-") == 0){
@@ -122,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickSqrt(View v){
-       if (operator != "" && num2 != "") {
+       if (num2 != "") {
            try {
                num2 = String.valueOf(Math.sqrt(Double.valueOf(num2)));
            } catch (Exception e) {
@@ -151,49 +148,35 @@ public class MainActivity extends AppCompatActivity {
         changesign---->changetextonscreen
    */
 
-
-    //if (operator != "" && num2 != "") {                num2
-    // }else if(num1 != "" && operator == ""){       num1
-
-
-
    public void onClickIs(View v){
         if(pressIs == false) {
-
-
-
-            if(num2 != "") {
+            if (num2 != "") {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-                screen.setText(num1); //result of arifm4
+                screen.setText(num1);
+            }else if(num1 != "" && operator == "") {
+                screen.setText(num1);
             }
-
-
         } else pressIs = true;
     }
 
-   public void onClickBack1(View v){
-       if(num2 != "") {
-           num2 = num2.substring(0,num2.length()-2);;
-           screen.setText(num1+operator+num2);
+   public void onClickBack1(View v) {
+       if (num2 != "") {
+           num2 = num2.substring(0, num2.length() - 2);
+           ;
+           screen.setText(num1 + operator + num2);
        }
-       if(operator == "" && num1 != "") {
-           num1 = num1.substring(0,num1.length()-2);
+       if (operator == "" && num1 != "") {
+           num1 = num1.substring(0, num1.length() - 2);
            screen.setText(num1);
        }
-
    }
 
-   private void clearC(){
-        num1 = "";
-        num2 = "";
-        operator = "";
-        result = "";
-    }
-
    public void onClickC(View v){
-        clearC();
-        screen.setText(result);
+       num1 = "";
+       num2 = "";
+       operator = "";
+       screen.setText(num1);
     }
 
    public void onClickCE(View v){

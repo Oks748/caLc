@@ -14,7 +14,6 @@ public class MainActivity extends AppCompatActivity {
     private String num1 = "";
     private String num2 = "";
     private String operator = "";
-    //private String result = "";
     private boolean pressIs = false;
 
     @Override
@@ -34,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
             pressIs = false;
         }
 
-        if (operator != "") {  //exist num1 and operator || empty num2 or partially
+        if (operator != "") {
             Button b = (Button) v;
             num2 += b.getText();
             screen.setText(num1 + operator + num2);
-        } else {                                        // not exist num1 or partially
+        } else {
             Button b = (Button) v;
             num1 += b.getText();
             screen.setText(num1);
@@ -53,6 +52,10 @@ public class MainActivity extends AppCompatActivity {
                 screen.setText(num1);
             }
         } else if (num2 == "" && operator != "") {
+            Button b = (Button) v;
+            operator = b.getText().toString();
+            screen.setText(num1 + operator);
+        }else if (operator == "") {
             Button b = (Button) v;
             operator = b.getText().toString();
             screen.setText(num1 + operator);
@@ -77,9 +80,11 @@ public class MainActivity extends AppCompatActivity {
    public void onClickPercent(View v) {
        if (num2 != "") {
            num2 = String.valueOf(Double.valueOf(num2)/100);
+           num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
        }else if(num1 != "" && operator == "") {
            num1 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num1)/100);
+           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
    }
@@ -92,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
                Log.d("Calc", e.getMessage());
                Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
            }
+           num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
        }else if(num1 != "" && operator == ""){
            try {
@@ -100,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                Log.d("Calc", e.getMessage());
                Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
            }
+           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
     }
@@ -126,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
                Log.d("Calc", e.getMessage());
                Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
            }
+           num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
        }else if(num1 != "" && operator == ""){
            try {
@@ -134,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
                Log.d("Calc", e.getMessage());
                Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
            }
+           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
    }

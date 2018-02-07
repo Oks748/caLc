@@ -11,8 +11,9 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
     private TextView screen;
-    private String display = "";
-    private String oper = "";
+    private String num1 = "";
+    private String num2 = "";
+    private String operator = "";
     private String result = "";
     private boolean pressIs = false;
     private boolean pressSign = false;
@@ -27,107 +28,119 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         screen = findViewById(R.id.textView);
-        screen.setText(display);
+        screen.setText(result);
     }
 
     public void onClickNumber(View v){
-        if(pressIs == true) clearC();
-        if (result != "") {
+        if(pressIs == true) {
+            clearC();
+            pressIs = false;
+        }
+
+        if (operator != "") {  //exist num1 and operator || empty num2 or partially
             Button b = (Button) v;
-            display += b.getText();
-            screen.setText(result + oper + display);
-        } else {
+            num2 += b.getText();
+            screen.setText(num1 + operator + num2);
+        } else {                                        // not exist num1 or partially
             Button b = (Button) v;
-            display += b.getText();
-            screen.setText(display);
+            num1 += b.getText();
+            screen.setText(num1);
         }
     }
 
-    public void onClickOperator4(View v){
-        if(display == "") {
+    public void onClickOperator4(View v) {
+        if (num1 == "") {
             Button b = (Button) v;
-            if (b.getText() == "-"){
-                display += b.getText();
-                screen.setText(display);
+            if (b.getText() == "-") {
+                num1 += b.getText();
+                screen.setText(num1);
             }
-        }else {
-            if(oper == "") {
-                result = display;
-                display = "";
-                Button b = (Button) v;
-                oper = b.getText().toString();
-                screen.setText(String.format("%s%s", result, oper));
-            }else {
-                Button b = (Button) v;
-                oper = b.getText().toString();
-                screen.setText(String.format("%s%s", result, oper));
-            }
+        } else if (num2 == "" && operator != "") {
+            Button b = (Button) v;
+            operator = b.getText().toString();
+            screen.setText(num1 + operator);
         }
     }
 
    private double arithmetic(){
-        switch (oper){
-            case "-": return Double.valueOf(result) - Double.valueOf(display);
-            case "+": return Double.valueOf(result) + Double.valueOf(display);
-            case "×": return Double.valueOf(result) * Double.valueOf(display);
-            case "÷":  try{
-                    return Double.valueOf(result) / Double.valueOf(display);
+        switch (operator){
+            case "-":  return Double.valueOf(num1) - Double.valueOf(num2);
+            case "+": return Double.valueOf(num1) + Double.valueOf(num2);
+            case "×": return Double.valueOf(num1) * Double.valueOf(num2);
+            case "÷": try{
+                    return Double.valueOf(num1) / Double.valueOf(num2);
                 } catch (Exception e){
                     Log.d("Calc", e.getMessage());
                     Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
                 }
-            default: return -1;
+            default: return 0;
         }
     }
 
-   public void onClickPercent(View v){
-     /*   if(pressbtnIs == true) clearC();
-       if(display == "") {
-            Button b = (Button) v;
-            if (b.getText() == "-"){
-                display += b.getText();
-                screen.setText(display);
-            }
-        }else {
-            if(oper == "") {
-                result = display;
-                display = "";
-                Button b = (Button) v;
-                oper = b.getText().toString();
-                screen.setText(String.format("%s%s", result, oper));
-            }else {
-                Button b = (Button) v;
-                oper = b.getText().toString();
-                screen.setText(String.format("%s%s", result, oper));
-            }
-        }
-        */
+   public void onClickPercent(View v) {
+       if (operator != "" && num2 != "") {
+           num2 = String.valueOf(Double.valueOf(num2)/100);
+           screen.setText(num1+operator+num2);
+       }else if(num1 != "" && operator == "") {
+           num1 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num1)/100);
+           screen.setText(num1);
+       }
+   }
+
+   public void onClick1Div(View v){
+       if (operator != "" && num2 != "") {
+           try {
+               num2 = String.valueOf(1 / Double.valueOf(num2));
+           } catch (Exception e) {
+               Log.d("Calc", e.getMessage());
+               Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
+           }
+           screen.setText(num1+operator+num2);
+       }else if(num1 != "" && operator == ""){
+           try {
+               num1 = String.valueOf(1/Double.valueOf(num1));
+           } catch (Exception e) {
+               Log.d("Calc", e.getMessage());
+               Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
+           }
+           screen.setText(num1);
+       }
     }
 
-    public void onClickSqrt(View v){
-        if(pressIs == true) clearC();
-        if(display != "" && result != "" && oper != "") {
-
-        }else{
-            //only display!=""
-
-            try {
-                result = String.valueOf(Math.sqrt(Double.valueOf(display)));
-            } catch (Exception e){
-                Log.d("Calc", e.getMessage());
-                Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
-            }
-            screen.setText(result);
-
-        }
-
-
+   public void onClickSign(View v){
+       if(operator != "" && num2 != "") {
+            num2 = String.valueOf((-1) * Double.valueOf(num2));
+            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
+            if (num2.indexOf("-") == 0){
+                screen.setText(num1+operator+"("+num2+")");
+            }else screen.setText(num1+operator+num2);
+        }else  if(num1 != "" && operator == ""){
+           num1 = String.valueOf((-1)*Double.valueOf(num1));
+           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+           screen.setText(num1);
+       }
     }
 
+   public void onClickSqrt(View v){
+       if (operator != "" && num2 != "") {
+           try {
+               num2 = String.valueOf(Math.sqrt(Double.valueOf(num2)));
+           } catch (Exception e) {
+               Log.d("Calc", e.getMessage());
+               Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
+           }
+           screen.setText(num1+operator+num2);
+       }else if(num1 != "" && operator == ""){
+           try {
+               num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
+           } catch (Exception e) {
+               Log.d("Calc", e.getMessage());
+               Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
+           }
+           screen.setText(num1);
+       }
+   }
 
-    public void onClickSign(View v){
-
-    }
   /* operators
         / -->exeption div0
         * + -
@@ -139,33 +152,55 @@ public class MainActivity extends AppCompatActivity {
    */
 
 
+    //if (operator != "" && num2 != "") {                num2
+    // }else if(num1 != "" && operator == ""){       num1
+
+
+
    public void onClickIs(View v){
-
-       result = String.valueOf(arithmetic());
-
-
-        result= result.indexOf(".") < 0 ? result : result.replaceAll("0*$", "").replaceAll("\\.$", "");
-        screen.setText(result);
+        if(pressIs == false) {
 
 
 
-        pressIs = true;
+            if(num2 != "") {
+                num1 = String.valueOf(arithmetic());
+                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+                screen.setText(num1); //result of arifm4
+            }
+
+
+        } else pressIs = true;
     }
 
+   public void onClickBack1(View v){
+       if(num2 != "") {
+           num2 = num2.substring(0,num2.length()-2);;
+           screen.setText(num1+operator+num2);
+       }
+       if(operator == "" && num1 != "") {
+           num1 = num1.substring(0,num1.length()-2);
+           screen.setText(num1);
+       }
+
+   }
+
    private void clearC(){
+        num1 = "";
+        num2 = "";
+        operator = "";
         result = "";
-        oper = "";
-        display = "";
     }
 
    public void onClickC(View v){
         clearC();
-        screen.setText(display);
+        screen.setText(result);
     }
 
    public void onClickCE(View v){
-        display = "";
-        screen.setText(result+oper);
+        if(num2 != "") {
+            num2 = "";
+            screen.setText(num1 + operator);
+        }
     }
 }
 

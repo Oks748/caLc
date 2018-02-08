@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
             num2 = String.valueOf((-1) * Double.valueOf(num2));
             num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
             if (num2.indexOf("-") == 0){
-                screen.setText(num1+operator+"("+num2+")");
-            }else screen.setText(num1+operator+num2);
+                screen.setText(String.format("%s%s(%s)", num1, operator, num2));
+            }else screen.setText(String.format("%s%s%s", num1, operator, num2));
        }else  if(num1 != "" && operator == ""){
            num1 = String.valueOf((-1)*Double.valueOf(num1));
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
@@ -188,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
                Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
            }
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
-           screen.setText(num1+operator+num2);
+           screen.setText(String.format("%s%s%s", num1, operator, num2));
        }else if(num1 != "" && operator == ""){
            try {
                num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
@@ -217,9 +217,9 @@ public class MainActivity extends AppCompatActivity {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                 screen.setText(num1);
-            } else if (num1 != "" && operator == "") {
+       } else if (num1 != "" && operator == "") {
                 screen.setText(num1);
-            }
+       }
     }
 
    public void onClickBack1(View v) {
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
 
        if (num2 != "") {
            num2 = num2.substring(0, num2.length() - 1);
-           screen.setText(num1 + operator + num2);
+           screen.setText(String.format("%s%s%s", num1, operator, num2));
        }
        if (operator == "" && num1 != "") {
            num1 = num1.substring(0, num1.length() - 1);
@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
    public void onClickCE(View v){
         if(num2 != "") {
             num2 = "";
-            screen.setText(num1 + operator);
+            screen.setText(String.format("%s%s", num1, operator));
         }
     }
 }

@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (operator != "") {
             if (num2 == "") {
-                if (b.getText() == ".") {
-                    num2 = "0" + b.getText();
+                if (b.getText().toString().equals(".")) {
+                    num2 = "0.";
                     screen.setText(num1+operator+num2);
                 } else {
                     num2 += b.getText();
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else{
             if (num1 == "") {
-                if (b.getText() == ".") {
-                    num1 = "0" + b.getText();
+                if (b.getText().toString().equals(".")) {
+                    num1 = "0.";
                     screen.setText(num1);
                 } else {
                     num1 += b.getText();
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
        Button b = (Button) v;
        if (Objects.equals(num1, "")) {
-            if (b.getText() == "-") {
+            if (b.getText().toString().equals("-")) {
                 num1 += b.getText();
                 screen.setText(num1);
             }
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
        }
 
        if (!num2.equals("")) {
-           num2 = String.valueOf(Double.valueOf(num2)/100);
+           num2 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num2)/100);
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
        }else if(num1 != "" && operator == "") {
@@ -212,19 +212,23 @@ public class MainActivity extends AppCompatActivity {
    */
 
    public void onClickIs(View v){
-        if(pressIs == false) {
-            if (num2 != "") {
+       pressIs = true;
+       if (num2 != "") {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                 screen.setText(num1);
             } else if (num1 != "" && operator == "") {
                 screen.setText(num1);
             }
-            pressIs = true;
-        }
     }
 
    public void onClickBack1(View v) {
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        if (num2 != "") {
            num2 = num2.substring(0, num2.length() - 1);
            screen.setText(num1 + operator + num2);

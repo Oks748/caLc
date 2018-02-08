@@ -283,21 +283,21 @@
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
-   <Button
+    <Button
         android:id="@+id/btnMinus"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="-"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickOperator4"
+        android:text="-"
+        android:textColor="#000000"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.545"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-        android:onClick="onClickOperator4"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
     <Button
         android:id="@+id/btnMult"

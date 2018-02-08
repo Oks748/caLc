@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         android:gravity="bottom|right"
         android:maxLength="24"
-        android:maxLines="2"
+        android:maxLines="1"
         android:text="0"
         android:textColor="@android:color/background_light"
         android:textSize="40sp"
@@ -32,17 +32,17 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="4dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="0"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="0"
+        android:textColor="#000000"
+        android:textSize="23sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.941"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5"
-        android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
     <Button
         android:id="@+id/btn1"
@@ -54,7 +54,7 @@
         android:onClick="onClickNumber"
         android:text="1"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,126 +69,126 @@
         android:onClick="onClickNumber"
         android:text="2"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
-   <Button
+    <Button
         android:id="@+id/btn3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="3"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="3"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline6"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline6" />
 
-   <Button
+    <Button
         android:id="@+id/btn4"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="4"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="4"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-   <Button
+    <Button
         android:id="@+id/btn5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="5"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="5"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-   <Button
+    <Button
         android:id="@+id/btn6"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="6"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="6"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
-   <Button
+    <Button
         android:id="@+id/btn7"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="7"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
+        android:text="7"
+        android:textColor="#000000"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
-   <Button
+    <Button
         android:id="@+id/btn8"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="#0e490f"
         android:focusableInTouchMode="false"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
         android:text="8"
-        android:textSize="40sp"
         android:textColor="#000000"
-        android:backgroundTint="#0e490f"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
-       android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
-   <Button
+    <Button
         android:id="@+id/btn9"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="#0e490f"
         android:focusableInTouchMode="false"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
         android:text="9"
-        android:textSize="40sp"
         android:textColor="#000000"
-        android:backgroundTint="#0e490f"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
-        android:onClick="onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <Button
         android:id="@+id/btnDot"
@@ -197,30 +197,30 @@
         android:layout_marginBottom="4dp"
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickNumber"
         android:text="."
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toTopOf="@+id/guideline5"
-        android:onClick = "onClickNumber"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline5" />
 
-   <Button
+    <Button
         android:id="@+id/btnBack1"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fontFamily="@font/architects_daughter"
-        android:text="←"
-        android:textSize="40sp"
-        android:textColor="#000000"
         android:backgroundTint="#0e490f"
+        android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickBack1"
+        android:text="←"
+        android:textColor="#000000"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/btnCE"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        android:onClick = "onClickBack1"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <Button
         android:id="@+id/btnSign"
@@ -228,14 +228,14 @@
         android:layout_height="0dp"
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickSign"
         android:text="±"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/btnSqrt"
         app:layout_constraintStart_toEndOf="@+id/btnC"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        android:onClick = "onClickSign"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <Button
         android:id="@+id/btnCE"
@@ -246,7 +246,7 @@
         android:onClick="onClickCE"
         android:text="CE"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/btnC"
         app:layout_constraintHorizontal_bias="0.0"
@@ -262,7 +262,7 @@
         android:onClick="onClickC"
         android:text="C"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toStartOf="@+id/btnSign"
         app:layout_constraintStart_toEndOf="@+id/guideline3"
@@ -278,7 +278,7 @@
         android:onClick="onClickOperator4"
         android:text="+"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="1.0"
@@ -294,7 +294,7 @@
         android:onClick="onClickOperator4"
         android:text="-"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.545"
@@ -310,7 +310,7 @@
         android:onClick="onClickOperator4"
         android:text="×"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -326,7 +326,7 @@
         android:onClick="onClickOperator4"
         android:text="÷"
         android:textColor="#000000"
-        android:textSize="45sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -340,14 +340,14 @@
         android:layout_marginEnd="2dp"
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickSqrt"
         android:text="√"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline9"
-        android:onClick="onClickSqrt"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline9" />
 
     <Button
         android:id="@+id/btnPercent"
@@ -355,14 +355,14 @@
         android:layout_height="0dp"
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClickPercent"
         android:text="%"
         android:textColor="#000000"
-        android:textSize="40sp"
+        android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline8"
-        android:onClick="onClickPercent"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <Button
         android:id="@+id/btn1Div"
@@ -370,15 +370,15 @@
         android:layout_height="0dp"
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
+        android:onClick="onClick1Div"
         android:text="1/x"
         android:textColor="#000000"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline7"
-        android:onClick="onClick1Div"/>
+        app:layout_constraintTop_toTopOf="@+id/guideline7" />
 
     <Button
         android:id="@+id/btnIs"

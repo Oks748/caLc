@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     private String num2 = "";
     private String operator = "";
     private boolean pressIs = false;
-
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
 
@@ -28,6 +27,28 @@ public class MainActivity extends AppCompatActivity {
 
         screen = findViewById(R.id.textView);
         screen.setText(num1);
+    }
+
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("num1", num1);
+        outState.putString("num2", num2);
+        outState.putString("operator", operator);
+        outState.putBoolean("noReadnum1", noReadnum1);
+        outState.putBoolean("noReadnum2", noReadnum2);
+        outState.putBoolean("pressIs", pressIs);
+        outState.putString("screen",screen.getText().toString());
+        super.onSaveInstanceState(outState);
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        num1 = savedInstanceState.getString("num1");
+        num2 = savedInstanceState.getString("num2");
+        operator = savedInstanceState.getString("operator");
+        noReadnum1 = savedInstanceState.getBoolean("noReadnum1");
+        noReadnum2 = savedInstanceState.getBoolean("noReadnum2");
+        pressIs = savedInstanceState.getBoolean("pressIs");
+        screen.setText(savedInstanceState.getString("screen"));
     }
 
     public void onClickNumber(View v) {

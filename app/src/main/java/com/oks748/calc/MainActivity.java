@@ -36,25 +36,25 @@ public class MainActivity extends AppCompatActivity {
         }
         Button b = (Button) v;
 
-        if (!Objects.equals(operator, "")) {
-            if (Objects.equals(num2, "")) {
+        if (operator != "") {
+            if (num2 == "") {
                 if (b.getText() == ".") {
                     num2 = "0" + b.getText();
-                    screen.setText(num2);
+                    screen.setText(num1+operator+num2);
                 } else {
                     num2 += b.getText();
-                    screen.setText(num2);
+                    screen.setText(num1+operator+num2);
                 }
             } else {
                 if (b.getText() == "." && num2.indexOf(".") != -1) {
-                    screen.setText(num2);
+                    screen.setText(num1+operator+num2);
                 } else {
                     num2 += b.getText();
-                    screen.setText(num2);
+                    screen.setText(num1+operator+num2);
                 }
             }
         } else{
-            if (Objects.equals(num1, "")) {
+            if (num1 == "") {
                 if (b.getText() == ".") {
                     num1 = "0" + b.getText();
                     screen.setText(num1);
@@ -74,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickOperator4(View v) {
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        Button b = (Button) v;
        if (Objects.equals(num1, "")) {
             if (b.getText() == "-") {
@@ -102,6 +108,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickPercent(View v) {
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        if (!num2.equals("")) {
            num2 = String.valueOf(Double.valueOf(num2)/100);
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
@@ -114,6 +126,12 @@ public class MainActivity extends AppCompatActivity {
    }
 
    public void onClick1Div(View v){
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        if (num2 != "") {
            try {
                num2 = String.valueOf(1 / Double.valueOf(num2));
@@ -136,6 +154,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickSign(View v){
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        if(num2 != "") {
             num2 = String.valueOf((-1) * Double.valueOf(num2));
             num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
@@ -150,6 +174,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickSqrt(View v){
+       if (pressIs) {
+           num2 = "";
+           operator = "";
+           pressIs = false;
+       }
+
        if (num2 != "") {
            try {
                num2 = String.valueOf(Math.sqrt(Double.valueOf(num2)));
@@ -187,10 +217,11 @@ public class MainActivity extends AppCompatActivity {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                 screen.setText(num1);
-            }else if(num1 != "" && operator == "") {
+            } else if (num1 != "" && operator == "") {
                 screen.setText(num1);
             }
-        } else pressIs = true;
+            pressIs = true;
+        }
     }
 
    public void onClickBack1(View v) {

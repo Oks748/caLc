@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView screen;
@@ -25,41 +27,63 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(num1);
     }
 
-    public void onClickNumber(View v){
-        if(pressIs == true) {
+    public void onClickNumber(View v) {
+        if (pressIs) {
             num1 = "";
             num2 = "";
             operator = "";
             pressIs = false;
         }
+        Button b = (Button) v;
 
-        if (operator != "") {
-            Button b = (Button) v;
-            num2 += b.getText();
-            screen.setText(num1 + operator + num2);
-        } else {
-            Button b = (Button) v;
-            num1 += b.getText();
-            screen.setText(num1);
+        if (!Objects.equals(operator, "")) {
+            if (Objects.equals(num2, "")) {
+                if (b.getText() == ".") {
+                    num2 = "0" + b.getText();
+                    screen.setText(num2);
+                } else {
+                    num2 += b.getText();
+                    screen.setText(num2);
+                }
+            } else {
+                if (b.getText() == "." && num2.indexOf(".") != -1) {
+                    screen.setText(num2);
+                } else {
+                    num2 += b.getText();
+                    screen.setText(num2);
+                }
+            }
+        } else{
+            if (Objects.equals(num1, "")) {
+                if (b.getText() == ".") {
+                    num1 = "0" + b.getText();
+                    screen.setText(num1);
+                } else {
+                    num1 += b.getText();
+                    screen.setText(num1);
+                }
+            } else {
+                if (b.getText() == "." && num1.indexOf(".") != -1) {
+                    screen.setText(num1);
+                } else {
+                    num1 += b.getText();
+                    screen.setText(num1);
+                }
+            }
         }
     }
 
-    public void onClickOperator4(View v) {
-        if (num1 == "") {
-            Button b = (Button) v;
+   public void onClickOperator4(View v) {
+       Button b = (Button) v;
+       if (Objects.equals(num1, "")) {
             if (b.getText() == "-") {
                 num1 += b.getText();
                 screen.setText(num1);
             }
-        } else if (num2 == "" && operator != "") {
-            Button b = (Button) v;
+       } else if (Objects.equals(num2, "")) {
             operator = b.getText().toString();
             screen.setText(num1 + operator);
-        }else if (operator == "") {
-            Button b = (Button) v;
-            operator = b.getText().toString();
-            screen.setText(num1 + operator);
-        }
+       }
     }
 
    private double arithmetic(){
@@ -78,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickPercent(View v) {
-       if (num2 != "") {
+       if (!num2.equals("")) {
            num2 = String.valueOf(Double.valueOf(num2)/100);
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
@@ -118,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
             if (num2.indexOf("-") == 0){
                 screen.setText(num1+operator+"("+num2+")");
             }else screen.setText(num1+operator+num2);
-        }else  if(num1 != "" && operator == ""){
+       }else  if(num1 != "" && operator == ""){
            num1 = String.valueOf((-1)*Double.valueOf(num1));
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
@@ -171,12 +195,11 @@ public class MainActivity extends AppCompatActivity {
 
    public void onClickBack1(View v) {
        if (num2 != "") {
-           num2 = num2.substring(0, num2.length() - 2);
-           ;
+           num2 = num2.substring(0, num2.length() - 1);
            screen.setText(num1 + operator + num2);
        }
        if (operator == "" && num1 != "") {
-           num1 = num1.substring(0, num1.length() - 2);
+           num1 = num1.substring(0, num1.length() - 1);
            screen.setText(num1);
        }
    }

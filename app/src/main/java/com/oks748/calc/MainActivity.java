@@ -48,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
         noReadnum1 = savedInstanceState.getBoolean("noReadnum1");
         noReadnum2 = savedInstanceState.getBoolean("noReadnum2");
         pressIs = savedInstanceState.getBoolean("pressIs");
+
+        if(getResources().getConfiguration().orientation == 1) {//portrait
+            setContentView(R.layout.activity_main);
+        }else if (getResources().getConfiguration().orientation == 2) { //landscape
+            setContentView(R.layout.landscap);
+        }
         screen.setText(savedInstanceState.getString("screen"));
     }
 
-    public void onClickNumber(View v) {
+     public void onClickNumber(View v) {
         if (pressIs) {
             num1 = "";
             num2 = "";

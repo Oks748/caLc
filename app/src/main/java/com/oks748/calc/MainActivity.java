@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
+       pressIs = true;
    }
 
    public void onClick1Div(View v){
@@ -190,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
+       pressIs = true;
     }
 
    public void onClickSign(View v){
@@ -213,12 +215,14 @@ public class MainActivity extends AppCompatActivity {
             num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
             screen.setText(num1);
        }
+       pressIs = true;
     }
 
    public void onClickSqrt(View v){
        if (pressIs) {
            num2 = "";
            operator = "";
+           noReadnum1 = false;
            noReadnum2 = false;
            pressIs = false;
        }
@@ -244,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
        }
+       pressIs = true;
    }
 
   /* operators
@@ -287,6 +292,9 @@ public class MainActivity extends AppCompatActivity {
            num1 = num1.substring(0, num1.length() - 1);
            screen.setText(num1);
        }
+       if(num1 == ""){
+           num1 = "";
+       }
    }
 
    public void onClickC(View v){
@@ -301,6 +309,7 @@ public class MainActivity extends AppCompatActivity {
    public void onClickCE(View v){
         if(num2 != "") {
             num2 = "";
+            if(pressIs) operator = "";
             noReadnum2 = false;
             screen.setText(String.format("%s%s", num1, operator));
         }

@@ -23,7 +23,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        if(getResources().getConfiguration().orientation == 1) {//portrait
+            setContentView(R.layout.activity_main);
+        }else if (getResources().getConfiguration().orientation == 2) { //landscape
+            setContentView(R.layout.landscap);
+        }
 
         screen = findViewById(R.id.textView);
         screen.setText(num1);
@@ -48,12 +52,6 @@ public class MainActivity extends AppCompatActivity {
         noReadnum1 = savedInstanceState.getBoolean("noReadnum1");
         noReadnum2 = savedInstanceState.getBoolean("noReadnum2");
         pressIs = savedInstanceState.getBoolean("pressIs");
-
-        if(getResources().getConfiguration().orientation == 1) {//portrait
-            setContentView(R.layout.activity_main);
-        }else if (getResources().getConfiguration().orientation == 2) { //landscape
-            setContentView(R.layout.landscap);
-        }
         screen.setText(savedInstanceState.getString("screen"));
     }
 

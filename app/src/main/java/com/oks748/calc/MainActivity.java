@@ -124,11 +124,15 @@ public class MainActivity extends AppCompatActivity {
 
        Button b = (Button) v;
        if (Objects.equals(num1, "")) {
-            if (b.getText().toString().equals("-")) {
-                num1 += b.getText();
-                screen.setText(num1);
-            }
-       } else if (Objects.equals(num2, "")) {
+           if (b.getText().toString().equals("-")) {
+               num1 += b.getText();
+               screen.setText(num1);
+           }
+       } else if (Objects.equals(num1, "-")){
+           num1 = "0";
+           operator = b.getText().toString();
+           screen.setText(num1 + operator);
+       }else if (Objects.equals(num2, "")) {
             operator = b.getText().toString();
             screen.setText(num1 + operator);
        }else if (!Objects.equals(num2, "")) {

@@ -77,9 +77,8 @@ public class MainActivity extends AppCompatActivity {
              pressSDPS = false;
          }
 
-        if (operator != "") {
-            if (noReadnum2){
-            }else if (num2 == "") {
+        if (!Objects.equals(operator, "")) {
+            if (Objects.equals(num2, "") && !noReadnum2 &&  num2.length() <= 13) {
                 if (b.getText().toString().equals(".")) {
                     num2 = "0.";
                     screen.setText(num1+operator+num2);
@@ -96,8 +95,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } else {
-            if (noReadnum1){
-            }else if (num1 == "") {
+            if (Objects.equals(num1, "") && !noReadnum1 &&  num1.length() <= 13) {
                 if (b.getText().toString().equals(".")) {
                     num1 = "0.";
                     screen.setText(num1);
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                     num1 += b.getText();
                     screen.setText(num1);
                 }
-            } else if(num1 != ""){
+            } else if(!Objects.equals(num1, "")){
                 if ( b.getText().toString().equals(".") && Objects.equals(num1, "-")) {
                     num1 = "-0.";
                     screen.setText(num1);

@@ -1,7 +1,7 @@
 package com.oks748.calc;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -122,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
        } else if (Objects.equals(num2, "")) {
             operator = b.getText().toString();
             screen.setText(num1 + operator);
+       }else if (!Objects.equals(num2, "")) {
+           num1 = String.valueOf(arithmetic());
+           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+           operator = b.getText().toString();
+           num2 = "";
+           noReadnum2 = false;
+           pressIs = false;
+           screen.setText(num1 + operator);
        }
     }
 
@@ -158,8 +166,8 @@ public class MainActivity extends AppCompatActivity {
            num1 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num1)/100);
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
+           pressIs = true;
        }
-       pressIs = true;
    }
 
    public void onClick1Div(View v){
@@ -190,8 +198,8 @@ public class MainActivity extends AppCompatActivity {
            noReadnum1 = true;
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
+           pressIs = true;
        }
-       pressIs = true;
     }
 
    public void onClickSign(View v){
@@ -214,8 +222,8 @@ public class MainActivity extends AppCompatActivity {
             num1 = String.valueOf((-1)*Double.valueOf(num1));
             num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
             screen.setText(num1);
+           pressIs = true;
        }
-       pressIs = true;
     }
 
    public void onClickSqrt(View v){
@@ -247,8 +255,8 @@ public class MainActivity extends AppCompatActivity {
            noReadnum1 = true;
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1);
+           pressIs = true;
        }
-       pressIs = true;
    }
 
   /* operators

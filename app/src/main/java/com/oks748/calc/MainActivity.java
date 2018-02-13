@@ -176,11 +176,16 @@ public class MainActivity extends AppCompatActivity {
            screen.setText(num1+operator+num2);
            pressSDPS = true;
        }else if(num1 != "" && operator == "") {
-           noReadnum1 = true;
-           num1 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num1)/100);
-           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-           screen.setText(num1);
-           pressIs = true;
+           if (Objects.equals(num1, "-")) {
+               num1 = "0";
+               screen.setText(num1);
+           }else {
+               noReadnum1 = true;
+               num1 = String.valueOf(Double.valueOf(num1) * Double.valueOf(num1) / 100);
+               num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+               screen.setText(num1);
+               pressIs = true;
+           }
        }
    }
 
@@ -204,16 +209,21 @@ public class MainActivity extends AppCompatActivity {
            screen.setText(num1+operator+num2);
            pressSDPS = true;
        }else if(num1 != "" && operator == ""){
-           try {
-               num1 = String.valueOf(1/Double.valueOf(num1));
-           } catch (Exception e) {
-               Log.d("Calc", e.getMessage());
-               Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
+           if (Objects.equals(num1, "-")) {
+               num1 = "0";
+               screen.setText(num1);
+           }else {
+               try {
+                   num1 = String.valueOf(1 / Double.valueOf(num1));
+               } catch (Exception e) {
+                   Log.d("Calc", e.getMessage());
+                   Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
+               }
+               noReadnum1 = true;
+               num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+               screen.setText(num1);
+               pressIs = true;
            }
-           noReadnum1 = true;
-           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-           screen.setText(num1);
-           pressIs = true;
        }
     }
 
@@ -234,11 +244,16 @@ public class MainActivity extends AppCompatActivity {
             }else screen.setText(String.format("%s%s%s", num1, operator, num2));
            pressSDPS = true;
        }else  if(num1 != "" && operator == ""){
-            noReadnum1 = true;
-            num1 = String.valueOf((-1)*Double.valueOf(num1));
-            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-            screen.setText(num1);
-           pressIs = true;
+           if (Objects.equals(num1, "-")) {
+               num1 = "0";
+               screen.setText(num1);
+           }else {
+               noReadnum1 = true;
+               num1 = String.valueOf((-1) * Double.valueOf(num1));
+               num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+               screen.setText(num1);
+               pressIs = true;
+           }
        }
     }
 
@@ -263,16 +278,21 @@ public class MainActivity extends AppCompatActivity {
            screen.setText(String.format("%s%s%s", num1, operator, num2));
            pressSDPS = true;
        }else if(num1 != "" && operator == ""){
-           try {
-               num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
-           } catch (Exception e) {
-               Log.d("Calc", e.getMessage());
-               Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
+           if (Objects.equals(num1, "-")) {
+               num1 = "0";
+               screen.setText(num1);
+           }else {
+               try {
+                   num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
+               } catch (Exception e) {
+                   Log.d("Calc", e.getMessage());
+                   Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
+               }
+               noReadnum1 = true;
+               num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
+               screen.setText(num1);
+               pressIs = true;
            }
-           noReadnum1 = true;
-           num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-           screen.setText(num1);
-           pressIs = true;
        }
    }
 

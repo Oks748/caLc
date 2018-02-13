@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(num1);
     }
 
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putString("num1", num1);
         outState.putString("num2", num2);
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         num1 = savedInstanceState.getString("num1");
@@ -104,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
                     screen.setText(num1);
                 }
             } else if(num1 != ""){
-                if (b.getText().toString().equals(".") && num1.indexOf(".") != -1) {
+                if ( b.getText().toString().equals(".") && Objects.equals(num1, "-")) {
+                    num1 = "-0.";
+                    screen.setText(num1);
+                } else if (b.getText().toString().equals(".") && num1.indexOf(".") != -1) {
                     screen.setText(num1);
                 } else {
                     num1 += b.getText();

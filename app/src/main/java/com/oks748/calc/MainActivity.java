@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private String num2 = "";
     private String operator = "";
     private boolean pressIs = false;
+    private boolean pressSDPS = false;
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("noReadnum1", noReadnum1);
         outState.putBoolean("noReadnum2", noReadnum2);
         outState.putBoolean("pressIs", pressIs);
+        outState.putBoolean("pressSDPS", pressSDPS);
         outState.putString("screen",screen.getText().toString());
         super.onSaveInstanceState(outState);
     }
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         noReadnum1 = savedInstanceState.getBoolean("noReadnum1");
         noReadnum2 = savedInstanceState.getBoolean("noReadnum2");
         pressIs = savedInstanceState.getBoolean("pressIs");
+        pressSDPS = savedInstanceState.getBoolean("pressSDPS");
         screen.setText(savedInstanceState.getString("screen"));
     }
 
@@ -65,6 +68,12 @@ public class MainActivity extends AppCompatActivity {
             pressIs = false;
         }
         Button b = (Button) v;
+
+         if (pressSDPS) {
+             num2 = "";
+             noReadnum2 = false;
+             pressSDPS = false;
+         }
 
         if (operator != "") {
             if (noReadnum2){
@@ -161,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
            num2 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num2)/100);
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
+           pressSDPS = true;
        }else if(num1 != "" && operator == "") {
            noReadnum1 = true;
            num1 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num1)/100);
@@ -188,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
            noReadnum2 = true;
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
+           pressSDPS = true;
        }else if(num1 != "" && operator == ""){
            try {
                num1 = String.valueOf(1/Double.valueOf(num1));
@@ -217,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
             if (num2.indexOf("-") == 0){
                 screen.setText(String.format("%s%s(%s)", num1, operator, num2));
             }else screen.setText(String.format("%s%s%s", num1, operator, num2));
+           pressSDPS = true;
        }else  if(num1 != "" && operator == ""){
             noReadnum1 = true;
             num1 = String.valueOf((-1)*Double.valueOf(num1));
@@ -245,6 +257,7 @@ public class MainActivity extends AppCompatActivity {
            noReadnum2 = true;
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(String.format("%s%s%s", num1, operator, num2));
+           pressSDPS = true;
        }else if(num1 != "" && operator == ""){
            try {
                num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
@@ -289,19 +302,22 @@ public class MainActivity extends AppCompatActivity {
        }
 
        if (num2 != "") {
-           num2 = num2.substring(0, num2.length() - 1);
+           if(num2.length() == 1){
+               num2 = "";
+           }else {
+               num2 = num2.substring(0, num2.length() - 1);
+           }
            screen.setText(String.format("%s%s%s", num1, operator, num2));
-       }
-       if (operator != "") {
+       }else  if (operator != "") {
            operator = "";
            screen.setText(num1);
-       }
-       if (operator == "" && num1 != "") {
-           num1 = num1.substring(0, num1.length() - 1);
+       }else if (operator == "" && num1 != "") {
+           if(num1.length() == 1){
+               num1 = "";
+           }else {
+               num1 = num1.substring(0, num1.length() - 1);
+           }
            screen.setText(num1);
-       }
-       if(num1 == ""){
-           num1 = "";
        }
    }
 

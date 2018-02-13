@@ -174,23 +174,23 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       if (!num2.equals("")) {
-           noReadnum2 = true;
-           num2 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num2)/100);
-           num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
-           screen.setText(num1+operator+num2);
-           pressSDPS = true;
-       }else if(num1 != "" && operator == "") {
-           if (Objects.equals(num1, "-")) {
+       if (!Objects.equals(num2, "")) {
+               noReadnum2 = true;
+               num2 = String.valueOf(Double.valueOf(num1)*Double.valueOf(num2)/100);
+               num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
+               screen.setText(num1+operator+num2);
+               pressSDPS = true;
+       }else if(!Objects.equals(num1, "") && Objects.equals(operator, "")) {
+           if (Objects.equals(num1, "-") || Objects.equals(num1, "-0.") || Objects.equals(num1, "-0")) {
                num1 = "0";
                screen.setText(num1);
-           }else {
-               noReadnum1 = true;
+           } else {
                num1 = String.valueOf(Double.valueOf(num1) * Double.valueOf(num1) / 100);
                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                screen.setText(num1);
                pressIs = true;
            }
+           noReadnum1 = true;
        }
    }
 
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       if (num2 != "") {
+       if (!Objects.equals(num2, "")) {
            try {
                num2 = String.valueOf(1 / Double.valueOf(num2));
            } catch (Exception e) {
@@ -213,8 +213,8 @@ public class MainActivity extends AppCompatActivity {
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(num1+operator+num2);
            pressSDPS = true;
-       }else if(num1 != "" && operator == ""){
-           if (Objects.equals(num1, "-")) {
+       }else if(!Objects.equals(num1, "") && Objects.equals(operator, "")){
+           if (Objects.equals(num1, "-") || Objects.equals(num1, "-0.") || Objects.equals(num1, "-0")) {
                num1 = "0";
                screen.setText(num1);
            }else {
@@ -224,11 +224,11 @@ public class MainActivity extends AppCompatActivity {
                    Log.d("Calc", e.getMessage());
                    Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
                }
-               noReadnum1 = true;
                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                screen.setText(num1);
                pressIs = true;
            }
+           noReadnum1 = true;
        }
     }
 
@@ -240,25 +240,30 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       if(num2 != "") {
+       if(!Objects.equals(num2, "")) {
+            if(Objects.equals(num2, "-0")|| Objects.equals(num2, "0") || Objects.equals(num2, "-0.")){
+                num2 = "0";
+                screen.setText(String.format("%s%s%s", num1, operator, num2));
+            }else {
+                num2 = String.valueOf((-1) * Double.valueOf(num2));
+                num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
+                if (num2.indexOf("-") == 0) {
+                    screen.setText(String.format("%s%s(%s)", num1, operator, num2));
+                } else screen.setText(String.format("%s%s%s", num1, operator, num2));
+            }
+            pressSDPS = true;
             noReadnum2 = true;
-            num2 = String.valueOf((-1) * Double.valueOf(num2));
-            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
-            if (num2.indexOf("-") == 0){
-                screen.setText(String.format("%s%s(%s)", num1, operator, num2));
-            }else screen.setText(String.format("%s%s%s", num1, operator, num2));
-           pressSDPS = true;
-       }else  if(num1 != "" && operator == ""){
-           if (Objects.equals(num1, "-")) {
+       }else  if(!Objects.equals(num1, "") && Objects.equals(operator, "")){
+           if (Objects.equals(num1, "-") || Objects.equals(num1, "0") || Objects.equals(num1, "-0")) {
                num1 = "0";
                screen.setText(num1);
            }else {
-               noReadnum1 = true;
                num1 = String.valueOf((-1) * Double.valueOf(num1));
                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                screen.setText(num1);
                pressIs = true;
            }
+           noReadnum1 = true;
        }
     }
 
@@ -271,33 +276,31 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       if (num2 != "") {
+       if (!Objects.equals(num2, "")) {
            try {
                num2 = String.valueOf(Math.sqrt(Double.valueOf(num2)));
            } catch (Exception e) {
-               Log.d("Calc", e.getMessage());
                Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
            }
            noReadnum2 = true;
            num2 = num2.indexOf(".") < 0 ? num2 : num2.replaceAll("0*$", "").replaceAll("\\.$", "");
            screen.setText(String.format("%s%s%s", num1, operator, num2));
            pressSDPS = true;
-       }else if(num1 != "" && operator == ""){
-           if (Objects.equals(num1, "-")) {
+       }else if(!Objects.equals(num1, "") && Objects.equals(operator, "")){
+           if (Objects.equals(num1, "-") || Objects.equals(num1, "-0.") || Objects.equals(num1, "-0")) {
                num1 = "0";
                screen.setText(num1);
            }else {
                try {
                    num1 = String.valueOf(Math.sqrt(Double.valueOf(num1)));
                } catch (Exception e) {
-                   Log.d("Calc", e.getMessage());
                    Toast.makeText(this, "Підкореневий вираз менше нуля", Toast.LENGTH_LONG).show();
                }
-               noReadnum1 = true;
                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                screen.setText(num1);
                pressIs = true;
            }
+           noReadnum1 = true;
        }
    }
 
@@ -312,12 +315,12 @@ public class MainActivity extends AppCompatActivity {
    */
 
    public void onClickIs(View v){
-       pressIs = true;
-       if (num2 != "") {
+       if (!Objects.equals(num2, "")) {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
                 screen.setText(num1);
-       } else if (num1 != "" && operator == "") {
+                pressIs = true;
+       } else if (!Objects.equals(num1, "") && Objects.equals(operator, "")) {
                 screen.setText(num1);
        }
     }
@@ -330,19 +333,27 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       if (num2 != "") {
-           if(num2.length() == 1){
+       if (!Objects.equals(num2, "")) {
+           if(Objects.equals(num2, "Infinity") || Objects.equals(num2, "NaN")){
                num2 = "";
+               noReadnum2 = false;
+           }else if(num2.length() == 1){
+               num2 = "";
+               noReadnum2 = false;
            }else {
                num2 = num2.substring(0, num2.length() - 1);
            }
            screen.setText(String.format("%s%s%s", num1, operator, num2));
-       }else  if (operator != "") {
+       }else  if (!Objects.equals(operator, "")) {
            operator = "";
            screen.setText(num1);
-       }else if (operator == "" && num1 != "") {
-           if(num1.length() == 1){
+       }else if (!Objects.equals(num1, "")) {
+           if(Objects.equals(num1, "Infinity") || Objects.equals(num1, "NaN")){
                num1 = "";
+               noReadnum1 = false;
+           }else if(num1.length() == 1){
+               num1 = "";
+               noReadnum1 = false;
            }else {
                num1 = num1.substring(0, num1.length() - 1);
            }
@@ -360,7 +371,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void onClickCE(View v){
-        if(num2 != "") {
+        if(!Objects.equals(num2, "")) {
             num2 = "";
             if(pressIs) operator = "";
             noReadnum2 = false;

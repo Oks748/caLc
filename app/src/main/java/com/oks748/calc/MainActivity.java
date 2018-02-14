@@ -4,9 +4,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
@@ -32,6 +37,39 @@ public class MainActivity extends AppCompatActivity {
 
         screen = findViewById(R.id.textView);
         screen.setText(num1);
+}
+
+
+    public void onClick(final View v) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("buttons");
+        ValueEventListener btnListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //Integer id = v.getId();
+                String bdf = String.valueOf(v.getId());
+                String str = dataSnapshot.child(bdf).getValue(String.class);
+
+
+                if(Objects.equals(bdf, "btn0") || Objects.equals(bdf, "btn1") || Objects.equals(bdf, "btn2") || Objects.equals(bdf, "btn3") || Objects.equals(bdf, "btn4") || Objects.equals(bdf, "btn5") || Objects.equals(bdf, "btn6") || Objects.equals(bdf, "btn7") || Objects.equals(bdf, "btn8") || Objects.equals(bdf, "btn9") || Objects.equals(bdf, "btnDot"))
+                    onClickNumber(str); //peredacha znaka na knopci
+                if(Objects.equals(bdf, "btnPlus") || Objects.equals(bdf, "btnMinus") || Objects.equals(bdf, "btnMult") || Objects.equals(bdf, "btnDiv"))
+                    onClickOperator4(str);
+
+                if(Objects.equals(bdf, "btnPercent")) onClickPercent();
+                if(Objects.equals(bdf, "btn1Div")) onClick1Div();
+                if(Objects.equals(bdf, "btnSign")) onClickSign();
+                if(Objects.equals(bdf, "btnSqrt")) onClickSqrt();
+
+                if(Objects.equals(bdf, "btnIs")) onClickIs();
+                if(Objects.equals(bdf, "btnBack1")) onClickBack1();
+                if(Objects.equals(bdf, "btnCE")) onClickCE();
+                if(Objects.equals(bdf, "btnC")) onClickC();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        ref.addValueEventListener(btnListener);
     }
 
     @Override
@@ -60,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(savedInstanceState.getString("screen"));
     }
 
-     public void onClickNumber(View v) {
+     public void onClickNumber(String bb) {
         if (pressIs) {
             num1 = "";
             num2 = "";
@@ -69,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             noReadnum2 = false;
             pressIs = false;
         }
-        Button b = (Button) v;
+        //Button b = (Button) v;
 
          if (pressSDPS) {
              num2 = "";
@@ -79,45 +117,45 @@ public class MainActivity extends AppCompatActivity {
 
         if (!Objects.equals(operator, "")) {
             if (Objects.equals(num2, "") && !noReadnum2 &&  num2.length() <= 13) {
-                if (b.getText().toString().equals(".")) {
+                if (Objects.equals(bb, ".")) {
                     num2 = "0.";
                     screen.setText(num1+operator+num2);
                 } else {
-                    num2 += b.getText();
+                    num2 += bb;
                     screen.setText(num1+operator+num2);
                 }
             } else {
-                if (b.getText().toString().equals(".") && num2.indexOf(".") != -1) {
+                if (Objects.equals(bb, ".") && num2.indexOf(".") != -1) {
                     screen.setText(num1+operator+num2);
                 } else {
-                    num2 += b.getText();
+                    num2 += bb;
                     screen.setText(num1+operator+num2);
                 }
             }
         } else {
             if (Objects.equals(num1, "") && !noReadnum1 &&  num1.length() <= 13) {
-                if (b.getText().toString().equals(".")) {
+                if (Objects.equals(bb, ".")) {
                     num1 = "0.";
                     screen.setText(num1);
                 } else {
-                    num1 += b.getText();
+                    num1 += bb;
                     screen.setText(num1);
                 }
             } else if(!Objects.equals(num1, "")){
-                if ( b.getText().toString().equals(".") && Objects.equals(num1, "-")) {
+                if (Objects.equals(bb, ".") && Objects.equals(num1, "-")) {
                     num1 = "-0.";
                     screen.setText(num1);
-                } else if (b.getText().toString().equals(".") && num1.indexOf(".") != -1) {
+                } else if (Objects.equals(bb, ".") && num1.indexOf(".") != -1) {
                     screen.setText(num1);
                 } else {
-                    num1 += b.getText();
+                    num1 += bb;
                     screen.setText(num1);
                 }
             }
         }
     }
 
-   public void onClickOperator4(View v) {
+   public void onClickOperator4(String bb) {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -125,23 +163,23 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       Button b = (Button) v;
+       //Button b = (Button) v;
        if (Objects.equals(num1, "")) {
-           if (b.getText().toString().equals("-")) {
-               num1 += b.getText();
+           if (bb == "-") {
+               num1 += bb;
                screen.setText(num1);
            }
        } else if (Objects.equals(num1, "-")){
            num1 = "0";
-           operator = b.getText().toString();
+           operator = bb;
            screen.setText(num1 + operator);
        }else if (Objects.equals(num2, "")) {
-            operator = b.getText().toString();
+            operator = bb;
             screen.setText(num1 + operator);
        }else if (!Objects.equals(num2, "")) {
            num1 = String.valueOf(arithmetic());
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-           operator = b.getText().toString();
+           operator = bb;
            num2 = "";
            noReadnum2 = false;
            pressIs = false;
@@ -164,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   public void onClickPercent(View v) {
+   public void onClickPercent() {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -192,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
        }
    }
 
-   public void onClick1Div(View v){
+   public void onClick1Div(){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -230,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickSign(View v){
+   public void onClickSign(){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -265,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickSqrt(View v){
+   public void onClickSqrt(){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -312,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
         changesign---->changetextonscreen
    */
 
-   public void onClickIs(View v){
+   public void onClickIs(){
        if (!Objects.equals(num2, "")) {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
@@ -323,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickBack1(View v) {
+   public void onClickBack1() {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -359,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
        }
    }
 
-   public void onClickC(View v){
+   public void onClickC(){
        num1 = "";
        num2 = "";
        operator = "";
@@ -368,7 +406,7 @@ public class MainActivity extends AppCompatActivity {
        screen.setText(num1);
     }
 
-   public void onClickCE(View v){
+   public void onClickCE(){
         if(!Objects.equals(num2, "")) {
             num2 = "";
             if(pressIs) operator = "";

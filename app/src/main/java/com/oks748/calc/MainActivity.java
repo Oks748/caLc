@@ -25,55 +25,92 @@ public class MainActivity extends AppCompatActivity {
     private boolean pressSDPS = false;
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
+    private DatabaseReference ref;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+   protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getResources().getConfiguration().orientation == 1) {//portrait
+        if (getResources().getConfiguration().orientation == 1) {//portrait
             setContentView(R.layout.activity_main);
-        }else if (getResources().getConfiguration().orientation == 2) { //landscape
+        } else if (getResources().getConfiguration().orientation == 2) { //landscape
             setContentView(R.layout.landscap);
         }
 
         screen = findViewById(R.id.textView);
         screen.setText(num1);
-}
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("buttons").child("digits").child("btn0").setValue("0");
+        ref.child("buttons").child("digits").child("btn1").setValue("1");
+        ref.child("buttons").child("digits").child("btn2").setValue("2");
+        ref.child("buttons").child("digits").child("btn3").setValue("3");
+        ref.child("buttons").child("digits").child("btn4").setValue("4");
+        ref.child("buttons").child("digits").child("btn5").setValue("5");
+        ref.child("buttons").child("digits").child("btn6").setValue("6");
+        ref.child("buttons").child("digits").child("btn7").setValue("7");
+        ref.child("buttons").child("digits").child("btn8").setValue("8");
+        ref.child("buttons").child("digits").child("btn9").setValue("9");
 
+        ref.child("buttons").child("dot").child("btnDot").setValue(".");
+        ref.child("buttons").child("operators4").child("btnDiv").setValue("÷");
+        ref.child("buttons").child("operators4").child("btnMinus").setValue("-");
+        ref.child("buttons").child("operators4").child("btnMult").setValue("×");
+        ref.child("buttons").child("operators4").child("btnPlus").setValue("+");
 
-    public void onClick(final View v) {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("buttons");
-        ValueEventListener btnListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //Integer id = v.getId();
-                String bdf = String.valueOf(v.getId());
-                String str = dataSnapshot.child(bdf).getValue(String.class);
+        ref.child("buttons").child("specOper").child("btn1Div").setValue("1/x");
+        ref.child("buttons").child("specOper").child("btnBack1").setValue("←");
+        ref.child("buttons").child("specOper").child("btnC").setValue("C");
+        ref.child("buttons").child("specOper").child("btnCE").setValue("CE");
+        ref.child("buttons").child("specOper").child("btnIs").setValue("=");
+        ref.child("buttons").child("specOper").child("btnPercent").setValue("%");
+        ref.child("buttons").child("specOper").child("btnSign").setValue("±");
+        ref.child("buttons").child("specOper").child("btnSqrt").setValue("√");
+    }
 
+   public void onClick(final View v) {
+       ref = FirebaseDatabase.getInstance().getReference("buttons");
+       ref.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               String bdf = getResources().getResourceEntryName(v.getId());
 
-                if(Objects.equals(bdf, "btn0") || Objects.equals(bdf, "btn1") || Objects.equals(bdf, "btn2") || Objects.equals(bdf, "btn3") || Objects.equals(bdf, "btn4") || Objects.equals(bdf, "btn5") || Objects.equals(bdf, "btn6") || Objects.equals(bdf, "btn7") || Objects.equals(bdf, "btn8") || Objects.equals(bdf, "btn9") || Objects.equals(bdf, "btnDot"))
-                    onClickNumber(str); //peredacha znaka na knopci
-                if(Objects.equals(bdf, "btnPlus") || Objects.equals(bdf, "btnMinus") || Objects.equals(bdf, "btnMult") || Objects.equals(bdf, "btnDiv"))
-                    onClickOperator4(str);
+               if(Objects.equals(bdf, "btn0") || Objects.equals(bdf, "btn1") || Objects.equals(bdf, "btn2") || Objects.equals(bdf, "btn3") || Objects.equals(bdf, "btn4") || Objects.equals(bdf, "btn5") || Objects.equals(bdf, "btn6") || Objects.equals(bdf, "btn7") || Objects.equals(bdf, "btn8") || Objects.equals(bdf, "btn9")){
+                   String str = dataSnapshot.child("digits").child(bdf).getValue(String.class);
+                   onClickNumber(str);
+               }else if(Objects.equals(bdf, "btnDot")){
+                   String str = dataSnapshot.child("digits").child("btnDot").getValue(String.class);
+                   onClickNumber(str);
+               }else if(Objects.equals(bdf, "btnPlus") || Objects.equals(bdf, "btnMinus") || Objects.equals(bdf, "btnMult") || Objects.equals(bdf, "btnDiv")) {
+                   String str = dataSnapshot.child("operators4").child(bdf).getValue(String.class);
+                   onClickOperator4(str);
+               }else if(Objects.equals(bdf, "btnPercent")){
+                   onClickPercent();
+               }else if(Objects.equals(bdf, "btn1Div")){
+                   onClick1Div();
+               }else if(Objects.equals(bdf, "btnSign")){
+                   onClickSign();
+               }else if(Objects.equals(bdf, "btnSqrt")){
+                   onClickSqrt();
+               }else if(Objects.equals(bdf, "btnIs")){
+                   onClickIs();
+               }else if(Objects.equals(bdf, "btnBack1")){
+                   onClickBack1();
+               }else if(Objects.equals(bdf, "btnCE")){
+                   onClickCE();
+               }else if(Objects.equals(bdf, "btnC")){
+                   onClickC();
+               }
+           }
+           @Override
+           public void onCancelled(DatabaseError error) {
+               Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
+           }
+       });
 
-                if(Objects.equals(bdf, "btnPercent")) onClickPercent();
-                if(Objects.equals(bdf, "btn1Div")) onClick1Div();
-                if(Objects.equals(bdf, "btnSign")) onClickSign();
-                if(Objects.equals(bdf, "btnSqrt")) onClickSqrt();
-
-                if(Objects.equals(bdf, "btnIs")) onClickIs();
-                if(Objects.equals(bdf, "btnBack1")) onClickBack1();
-                if(Objects.equals(bdf, "btnCE")) onClickCE();
-                if(Objects.equals(bdf, "btnC")) onClickC();
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        ref.addValueEventListener(btnListener);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+   protected void onSaveInstanceState(Bundle outState) {
         outState.putString("num1", num1);
         outState.putString("num2", num2);
         outState.putString("operator", operator);
@@ -86,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+   protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         num1 = savedInstanceState.getString("num1");
         num2 = savedInstanceState.getString("num2");
@@ -98,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(savedInstanceState.getString("screen"));
     }
 
-     public void onClickNumber(String bb) {
+   public void onClickNumber(String bb) {
         if (pressIs) {
             num1 = "";
             num2 = "";

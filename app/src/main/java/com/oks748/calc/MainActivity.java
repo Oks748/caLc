@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
     private DatabaseReference ref;
+    private Button bb;
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -39,77 +41,71 @@ public class MainActivity extends AppCompatActivity {
         screen = findViewById(R.id.textView);
         screen.setText(num1);
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        ref = FirebaseDatabase.getInstance().getReference();
-        ref.child("buttons").child("digits").child("btn0").setValue("0");
-        ref.child("buttons").child("digits").child("btn1").setValue("1");
-        ref.child("buttons").child("digits").child("btn2").setValue("2");
-        ref.child("buttons").child("digits").child("btn3").setValue("3");
-        ref.child("buttons").child("digits").child("btn4").setValue("4");
-        ref.child("buttons").child("digits").child("btn5").setValue("5");
-        ref.child("buttons").child("digits").child("btn6").setValue("6");
-        ref.child("buttons").child("digits").child("btn7").setValue("7");
-        ref.child("buttons").child("digits").child("btn8").setValue("8");
-        ref.child("buttons").child("digits").child("btn9").setValue("9");
+        ref = FirebaseDatabase.getInstance().getReference().child("buttons");
 
-        ref.child("buttons").child("dot").child("btnDot").setValue(".");
-        ref.child("buttons").child("operators4").child("btnDiv").setValue("÷");
-        ref.child("buttons").child("operators4").child("btnMinus").setValue("-");
-        ref.child("buttons").child("operators4").child("btnMult").setValue("×");
-        ref.child("buttons").child("operators4").child("btnPlus").setValue("+");
+        ValueEventListener btnListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("smth","onDCh");
+                bb =  findViewById(R.id.btn0);
+                bb.setText(dataSnapshot.child("digits").child("btn0").getValue(String.class));
+                bb =  findViewById(R.id.btn1);
+                bb.setText(dataSnapshot.child("digits").child("btn1").getValue(String.class));
+                bb =  findViewById(R.id.btn2);
+                bb.setText(dataSnapshot.child("digits").child("btn2").getValue(String.class));
+                bb =  findViewById(R.id.btn3);
+                bb.setText(dataSnapshot.child("digits").child("btn3").getValue(String.class));
+                bb =  findViewById(R.id.btn4);
+                bb.setText(dataSnapshot.child("digits").child("btn4").getValue(String.class));
+                bb =  findViewById(R.id.btn5);
+                bb.setText(dataSnapshot.child("digits").child("btn5").getValue(String.class));
+                bb =  findViewById(R.id.btn6);
+                bb.setText(dataSnapshot.child("digits").child("btn6").getValue(String.class));
+                bb =  findViewById(R.id.btn7);
+                bb.setText(dataSnapshot.child("digits").child("btn7").getValue(String.class));
+                bb =  findViewById(R.id.btn8);
+                bb.setText(dataSnapshot.child("digits").child("btn8").getValue(String.class));
+                bb =  findViewById(R.id.btn9);
+                bb.setText(dataSnapshot.child("digits").child("btn9").getValue(String.class));
 
-        ref.child("buttons").child("specOper").child("btn1Div").setValue("1/x");
-        ref.child("buttons").child("specOper").child("btnBack1").setValue("←");
-        ref.child("buttons").child("specOper").child("btnC").setValue("C");
-        ref.child("buttons").child("specOper").child("btnCE").setValue("CE");
-        ref.child("buttons").child("specOper").child("btnIs").setValue("=");
-        ref.child("buttons").child("specOper").child("btnPercent").setValue("%");
-        ref.child("buttons").child("specOper").child("btnSign").setValue("±");
-        ref.child("buttons").child("specOper").child("btnSqrt").setValue("√");
+                bb =  findViewById(R.id.btnDot);
+                bb.setText(dataSnapshot.child("dot").child("btnDot").getValue(String.class));
+
+                bb =  findViewById(R.id.btnDiv);
+                bb.setText(dataSnapshot.child("operators4").child("btnDiv").getValue(String.class));
+                bb =  findViewById(R.id.btnMinus);
+                bb.setText(dataSnapshot.child("operators4").child("btnMinus").getValue(String.class));
+                bb =  findViewById(R.id.btnMult);
+                bb.setText(dataSnapshot.child("operators4").child("btnMult").getValue(String.class));
+                bb =  findViewById(R.id.btnPlus);
+                bb.setText(dataSnapshot.child("operators4").child("btnPlus").getValue(String.class));
+
+                bb =  findViewById(R.id.btn1Div);
+                bb.setText(dataSnapshot.child("specOper").child("btn1Div").getValue(String.class));
+                bb =  findViewById(R.id.btnBack1);
+                bb.setText(dataSnapshot.child("specOper").child("btnBack").getValue(String.class));
+                bb =  findViewById(R.id.btnC);
+                bb.setText(dataSnapshot.child("specOper").child("btnC").getValue(String.class));
+                bb =  findViewById(R.id.btnCE);
+                bb.setText(dataSnapshot.child("specOper").child("btnCE").getValue(String.class));
+                bb =  findViewById(R.id.btnIs);
+                bb.setText(dataSnapshot.child("specOper").child("btnIs").getValue(String.class));
+                bb =  findViewById(R.id.btnPercent);
+                bb.setText(dataSnapshot.child("specOper").child("btnPercent").getValue(String.class));
+                bb =  findViewById(R.id.btnSign);
+                bb.setText(dataSnapshot.child("specOper").child("btnSign").getValue(String.class));
+                bb =  findViewById(R.id.btnSqrt);
+                bb.setText(dataSnapshot.child("specOper").child("btnSqrt").getValue(String.class));
+            }
+            @Override
+            public void onCancelled(DatabaseError error) {
+                Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
+            }
+        };
+        ref.addValueEventListener(btnListener);
     }
 
-   public void onClick(final View v) {
-       ref = FirebaseDatabase.getInstance().getReference("buttons");
-       ref.addValueEventListener(new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               String bdf = getResources().getResourceEntryName(v.getId());
-
-               if(Objects.equals(bdf, "btn0") || Objects.equals(bdf, "btn1") || Objects.equals(bdf, "btn2") || Objects.equals(bdf, "btn3") || Objects.equals(bdf, "btn4") || Objects.equals(bdf, "btn5") || Objects.equals(bdf, "btn6") || Objects.equals(bdf, "btn7") || Objects.equals(bdf, "btn8") || Objects.equals(bdf, "btn9")){
-                   String str = dataSnapshot.child("digits").child(bdf).getValue(String.class);
-                   onClickNumber(str);
-               }else if(Objects.equals(bdf, "btnDot")){
-                   String str = dataSnapshot.child("digits").child("btnDot").getValue(String.class);
-                   onClickNumber(str);
-               }else if(Objects.equals(bdf, "btnPlus") || Objects.equals(bdf, "btnMinus") || Objects.equals(bdf, "btnMult") || Objects.equals(bdf, "btnDiv")) {
-                   String str = dataSnapshot.child("operators4").child(bdf).getValue(String.class);
-                   onClickOperator4(str);
-               }else if(Objects.equals(bdf, "btnPercent")){
-                   onClickPercent();
-               }else if(Objects.equals(bdf, "btn1Div")){
-                   onClick1Div();
-               }else if(Objects.equals(bdf, "btnSign")){
-                   onClickSign();
-               }else if(Objects.equals(bdf, "btnSqrt")){
-                   onClickSqrt();
-               }else if(Objects.equals(bdf, "btnIs")){
-                   onClickIs();
-               }else if(Objects.equals(bdf, "btnBack1")){
-                   onClickBack1();
-               }else if(Objects.equals(bdf, "btnCE")){
-                   onClickCE();
-               }else if(Objects.equals(bdf, "btnC")){
-                   onClickC();
-               }
-           }
-           @Override
-           public void onCancelled(DatabaseError error) {
-               Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
-           }
-       });
-
-    }
-
-    @Override
+   @Override
    protected void onSaveInstanceState(Bundle outState) {
         outState.putString("num1", num1);
         outState.putString("num2", num2);
@@ -122,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    @Override
+   @Override
    protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         num1 = savedInstanceState.getString("num1");
@@ -135,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(savedInstanceState.getString("screen"));
     }
 
-   public void onClickNumber(String bb) {
+   public void onClickNumber(View v) {
         if (pressIs) {
             num1 = "";
             num2 = "";
@@ -144,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             noReadnum2 = false;
             pressIs = false;
         }
-        //Button b = (Button) v;
+        Button b = (Button) v;
 
          if (pressSDPS) {
              num2 = "";
@@ -152,47 +148,47 @@ public class MainActivity extends AppCompatActivity {
              pressSDPS = false;
          }
 
-        if (!Objects.equals(operator, "")) {
-            if (Objects.equals(num2, "") && !noReadnum2 &&  num2.length() <= 13) {
-                if (Objects.equals(bb, ".")) {
-                    num2 = "0.";
-                    screen.setText(num1+operator+num2);
-                } else {
-                    num2 += bb;
-                    screen.setText(num1+operator+num2);
-                }
-            } else {
-                if (Objects.equals(bb, ".") && num2.indexOf(".") != -1) {
-                    screen.setText(num1+operator+num2);
-                } else {
-                    num2 += bb;
-                    screen.setText(num1+operator+num2);
-                }
-            }
-        } else {
-            if (Objects.equals(num1, "") && !noReadnum1 &&  num1.length() <= 13) {
-                if (Objects.equals(bb, ".")) {
-                    num1 = "0.";
-                    screen.setText(num1);
-                } else {
-                    num1 += bb;
-                    screen.setText(num1);
-                }
-            } else if(!Objects.equals(num1, "")){
-                if (Objects.equals(bb, ".") && Objects.equals(num1, "-")) {
-                    num1 = "-0.";
-                    screen.setText(num1);
-                } else if (Objects.equals(bb, ".") && num1.indexOf(".") != -1) {
-                    screen.setText(num1);
-                } else {
-                    num1 += bb;
-                    screen.setText(num1);
-                }
-            }
-        }
-    }
+       if (!Objects.equals(operator, "")) {
+           if (Objects.equals(num2, "") && !noReadnum2 &&  num2.length() <= 13) {
+               if (b.getText().toString().equals(".")) {
+                       num2 = "0.";
+                       screen.setText(num1+operator+num2);
+               } else {
+                       num2 += b.getText();
+                       screen.setText(num1+operator+num2);
+               }
+           } else {
+               if (b.getText().toString().equals(".") && num2.indexOf(".") != -1) {
+                       screen.setText(num1+operator+num2);
+               } else {
+                   num2 += b.getText();
+                   screen.setText(num1+operator+num2);
+               }
+           }
+       } else {
+           if (Objects.equals(num1, "") && !noReadnum1 &&  num1.length() <= 13) {
+               if (b.getText().toString().equals(".")) {
+                   num1 = "0.";
+                   screen.setText(num1);
+               } else {
+                   num1 += b.getText();
+                   screen.setText(num1);
+               }
+           } else if(!Objects.equals(num1, "")){
+               if ( b.getText().toString().equals(".") && Objects.equals(num1, "-")) {
+                   num1 = "-0.";
+                   screen.setText(num1);
+               } else if (b.getText().toString().equals(".") && num1.indexOf(".") != -1) {
+                   screen.setText(num1);
+               } else {
+                   num1 += b.getText();
+                   screen.setText(num1);
+               }
+           }
+       }
+   }
 
-   public void onClickOperator4(String bb) {
+   public void onClickOperator4(View v) {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -200,23 +196,23 @@ public class MainActivity extends AppCompatActivity {
            pressIs = false;
        }
 
-       //Button b = (Button) v;
+       Button b = (Button) v;
        if (Objects.equals(num1, "")) {
-           if (bb == "-") {
-               num1 += bb;
+           if (b.getText().toString().equals("-")) {
+               num1 += b.getText();
                screen.setText(num1);
            }
        } else if (Objects.equals(num1, "-")){
            num1 = "0";
-           operator = bb;
+           operator = b.getText().toString();
            screen.setText(num1 + operator);
        }else if (Objects.equals(num2, "")) {
-            operator = bb;
+            operator = b.getText().toString();
             screen.setText(num1 + operator);
        }else if (!Objects.equals(num2, "")) {
            num1 = String.valueOf(arithmetic());
            num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
-           operator = bb;
+           operator = b.getText().toString();
            num2 = "";
            noReadnum2 = false;
            pressIs = false;
@@ -239,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-   public void onClickPercent() {
+   public void onClickPercent(View v) {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -267,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
        }
    }
 
-   public void onClick1Div(){
+   public void onClick1Div(View v){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -305,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickSign(){
+   public void onClickSign(View v){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -340,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickSqrt(){
+   public void onClickSqrt(View v){
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -387,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
         changesign---->changetextonscreen
    */
 
-   public void onClickIs(){
+   public void onClickIs(View v){
        if (!Objects.equals(num2, "")) {
                 num1 = String.valueOf(arithmetic());
                 num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");
@@ -398,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
        }
     }
 
-   public void onClickBack1() {
+   public void onClickBack1(View v) {
        if (pressIs) {
            num2 = "";
            operator = "";
@@ -434,7 +430,7 @@ public class MainActivity extends AppCompatActivity {
        }
    }
 
-   public void onClickC(){
+   public void onClickC(View v){
        num1 = "";
        num2 = "";
        operator = "";
@@ -443,7 +439,7 @@ public class MainActivity extends AppCompatActivity {
        screen.setText(num1);
     }
 
-   public void onClickCE(){
+   public void onClickCE(View v){
         if(!Objects.equals(num2, "")) {
             num2 = "";
             if(pressIs) operator = "";

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         ValueEventListener btnListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("smth","onDCh");
+                Log.d("tag","onDataCh");
                 bb =  findViewById(R.id.btn0);
                 bb.setText(dataSnapshot.child("digits").child("btn0").getValue(String.class));
                 bb =  findViewById(R.id.btn1);
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError error) {
+                Log.d("tag","onCancelled");
                 Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
             }
         };

@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean noReadnum2 = false;
     private DatabaseReference ref;
     private Button bb;
+    private Map<String, String> bbs = new HashMap<>();
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -43,68 +46,50 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         ref = FirebaseDatabase.getInstance().getReference().child("buttons");
 
-        ValueEventListener btnListener = new ValueEventListener() {
+        fromBase("digits", "btn0");
+        fromBase("digits", "btn1");
+        fromBase("digits", "btn2");
+        fromBase("digits", "btn3");
+        fromBase("digits", "btn4");
+        fromBase("digits", "btn5");
+        fromBase("digits", "btn6");
+        fromBase("digits", "btn7");
+        fromBase("digits", "btn8");
+        fromBase("digits", "btn9");
+
+        fromBase("dot", "btnDot");
+
+        fromBase("operators4", "btnDiv");
+        fromBase("operators4", "btnMinus");
+        fromBase("operators4", "btnMult");
+        fromBase("operators4", "btnPlus");
+
+        fromBase("specOper", "btn1Div");
+        fromBase("specOper", "btnBack1");
+        fromBase("specOper", "btnC");
+        fromBase("specOper", "btnCE");
+        fromBase("specOper", "btnIs");
+        fromBase("specOper", "btnPercent");
+        fromBase("specOper", "btnSign");
+        fromBase("specOper", "btnSqrt");
+    }
+
+   public void fromBase(String a, final String b){
+        ref.child(a).child(b).addValueEventListener( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("tag","onDataCh");
-                bb =  findViewById(R.id.btn0);
-                bb.setText(dataSnapshot.child("digits").child("btn0").getValue(String.class));
-                bb =  findViewById(R.id.btn1);
-                bb.setText(dataSnapshot.child("digits").child("btn1").getValue(String.class));
-                bb =  findViewById(R.id.btn2);
-                bb.setText(dataSnapshot.child("digits").child("btn2").getValue(String.class));
-                bb =  findViewById(R.id.btn3);
-                bb.setText(dataSnapshot.child("digits").child("btn3").getValue(String.class));
-                bb =  findViewById(R.id.btn4);
-                bb.setText(dataSnapshot.child("digits").child("btn4").getValue(String.class));
-                bb =  findViewById(R.id.btn5);
-                bb.setText(dataSnapshot.child("digits").child("btn5").getValue(String.class));
-                bb =  findViewById(R.id.btn6);
-                bb.setText(dataSnapshot.child("digits").child("btn6").getValue(String.class));
-                bb =  findViewById(R.id.btn7);
-                bb.setText(dataSnapshot.child("digits").child("btn7").getValue(String.class));
-                bb =  findViewById(R.id.btn8);
-                bb.setText(dataSnapshot.child("digits").child("btn8").getValue(String.class));
-                bb =  findViewById(R.id.btn9);
-                bb.setText(dataSnapshot.child("digits").child("btn9").getValue(String.class));
-
-                bb =  findViewById(R.id.btnDot);
-                bb.setText(dataSnapshot.child("dot").child("btnDot").getValue(String.class));
-
-                bb =  findViewById(R.id.btnDiv);
-                bb.setText(dataSnapshot.child("operators4").child("btnDiv").getValue(String.class));
-                bb =  findViewById(R.id.btnMinus);
-                bb.setText(dataSnapshot.child("operators4").child("btnMinus").getValue(String.class));
-                bb =  findViewById(R.id.btnMult);
-                bb.setText(dataSnapshot.child("operators4").child("btnMult").getValue(String.class));
-                bb =  findViewById(R.id.btnPlus);
-                bb.setText(dataSnapshot.child("operators4").child("btnPlus").getValue(String.class));
-
-                bb =  findViewById(R.id.btn1Div);
-                bb.setText(dataSnapshot.child("specOper").child("btn1Div").getValue(String.class));
-                bb =  findViewById(R.id.btnBack1);
-                bb.setText(dataSnapshot.child("specOper").child("btnBack").getValue(String.class));
-                bb =  findViewById(R.id.btnC);
-                bb.setText(dataSnapshot.child("specOper").child("btnC").getValue(String.class));
-                bb =  findViewById(R.id.btnCE);
-                bb.setText(dataSnapshot.child("specOper").child("btnCE").getValue(String.class));
-                bb =  findViewById(R.id.btnIs);
-                bb.setText(dataSnapshot.child("specOper").child("btnIs").getValue(String.class));
-                bb =  findViewById(R.id.btnPercent);
-                bb.setText(dataSnapshot.child("specOper").child("btnPercent").getValue(String.class));
-                bb =  findViewById(R.id.btnSign);
-                bb.setText(dataSnapshot.child("specOper").child("btnSign").getValue(String.class));
-                bb =  findViewById(R.id.btnSqrt);
-                bb.setText(dataSnapshot.child("specOper").child("btnSqrt").getValue(String.class));
+                Log.d("tg","onDataCh");
+                bbs.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
+                bb = findViewById(getResources().getIdentifier(b, "id", getPackageName()));
+                bb.setText(bbs.get(b));
             }
             @Override
             public void onCancelled(DatabaseError error) {
-                Log.d("tag","onCancelled");
+                Log.d("tg","onCancelled");
                 Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
             }
-        };
-        ref.addValueEventListener(btnListener);
-    }
+        });
+   }
 
    @Override
    protected void onSaveInstanceState(Bundle outState) {

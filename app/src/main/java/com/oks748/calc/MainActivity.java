@@ -12,13 +12,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    boolean bound = false;
-    private ServiceConnection sConn;
-    workBaseService myBindService;
+    private boolean bound = false;
+    private workBaseService myBindService;
+
     private TextView screen;
     private String num1 = "";
     private String num2 = "";
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean pressSDPS = false;
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
-    final String LOG_TAG = "myLogs";
+    private static final String LOG_TAG = "myLogs";
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -37,52 +38,92 @@ public class MainActivity extends AppCompatActivity {
         } else if (getResources().getConfiguration().orientation == 2) { //landscape
             setContentView(R.layout.landscap);
         }
-
         screen = findViewById(R.id.textView);
         screen.setText(num1);
 
         Log.d(LOG_TAG, "MainActivity: onCreate_End");
    }
 
+
+   public void drawBtns(HashMap<String, String> bbs){
+
+       //Log.d(LOG_TAG,"bbs_"+bbs.toString()+"_");
+
+       Button bb;
+      // bbs = signsOfBtns.getHashmap();
+       Log.d(LOG_TAG,"bbsgetHASH_"+bbs.toString()+"_");
+       Log.d(LOG_TAG,"HASH_"+bbs.get("btnSqrt")+"_");
+
+       bb = findViewById(R.id.btnCE);
+               //getResources().getIdentifier("btnSqrt" , "id", getPackageName()));
+       Log.d(LOG_TAG,"onfindViewId");
+       bb.setText(bbs.get("btnCE"));
+/*
+       for (HashMap.Entry entry : bbs.entrySet()) {
+
+           bb = findViewById(getResources().getIdentifier(entry.getKey().toString() , "id", getPackageName()));
+           Log.d(LOG_TAG,"onDataCh_3");
+           bb.setText(bbs.get(entry.getValue().toString()));
+           Log.d(LOG_TAG,"onDataCh_4");
+       }*/
+   }
+
     @Override
     protected void onStart() {
         super.onStart();
-        sConn = new ServiceConnection() {
-            public void onServiceConnected(ComponentName name, IBinder binder) {
-                Log.d(LOG_TAG, "MainActivity onServiceConnected");
-                workBaseService.LocalBinder myBinder = (workBaseService.LocalBinder) binder;
-                myBindService = myBinder.getService();
-                bound = true;
-            }
-            public void onServiceDisconnected(ComponentName name) {
-                Log.d(LOG_TAG, "MainActivity onServiceDisconnected");
-                bound = false;
-            }
-        };
-
-        Intent intent = new Intent(this, workBaseService.class);
-        bindService(intent, sConn, BIND_AUTO_CREATE);
         Log.d(LOG_TAG, "MainActivity: onStart()");
     }
+
+    private ServiceConnection sConn = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder binder) {
+            Log.d(LOG_TAG, "MainActivity onServiceConnected"+bound+"_");
+            myBindService = ((workBaseService.LocalBinder) binder).getService();
+            bound = true;
+            myBindService.baseConnect();
+            Log.d(LOG_TAG, "MainActivity: baseConnect");
+
+
+            //drawBtns();
+            //Log.d(LOG_TAG, "MainActivity: drawBtns()");
+
+
+            Log.d(LOG_TAG, "MainActivity onServiceConnected"+bound+"_end");
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(LOG_TAG, "MainActivity onServiceDisconnected"+bound+"_");
+            bound = false;
+        }
+    };
 
     @Override
     protected void onResume() {
         super.onResume();
+        screen.setText("hello");
+        Intent intent = new Intent(this, workBaseService.class);
+        bindService(intent, sConn, BIND_AUTO_CREATE);
         Log.d(LOG_TAG, "MainActivity: onResume_"+bound+"_");  //false ???
         if (bound) {
-            myBindService.baseConnect(); //myFunc
-            Log.d(LOG_TAG, "MainActivity: onResume_baseConnect()");
+            //myFunc
+            Log.d(LOG_TAG, "MainActivity: onResume_baseConnect()________");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(LOG_TAG, "MainActivity: onPause()_"+bound+"_begin");
+        if (bound){
+            unbindService(sConn);
+            bound = false;
+        }
+        Log.d(LOG_TAG, "MainActivity: onPause()_"+bound+"_end");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(LOG_TAG, "MainActivity: onStop()_"+bound+"_");
-        if (bound){
-            unbindService(sConn);
-            bound = false;
-        }
         Log.d(LOG_TAG, "MainActivity: onStop()");
     }
 
@@ -96,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("pressIs", pressIs);
         outState.putBoolean("pressSDPS", pressSDPS);
         outState.putString("screen",screen.getText().toString());
+        outState.putBoolean("bound", bound);
         super.onSaveInstanceState(outState);
     }
 
@@ -110,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
         pressIs = savedInstanceState.getBoolean("pressIs");
         pressSDPS = savedInstanceState.getBoolean("pressSDPS");
         screen.setText(savedInstanceState.getString("screen"));
+        bound = savedInstanceState.getBoolean("bound");
     }
 
    public void onClickNumber(View v) {

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean pressSDPS = false;
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
-    private static final String LOG_TAG = "myLogs";
+    public static String LOG_TAG = "myLogs";
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -42,30 +41,6 @@ public class MainActivity extends AppCompatActivity {
         screen.setText(num1);
 
         Log.d(LOG_TAG, "MainActivity: onCreate_End");
-   }
-
-
-   public void drawBtns(HashMap<String, String> bbs){
-
-       //Log.d(LOG_TAG,"bbs_"+bbs.toString()+"_");
-
-       Button bb;
-      // bbs = signsOfBtns.getHashmap();
-       Log.d(LOG_TAG,"bbsgetHASH_"+bbs.toString()+"_");
-       Log.d(LOG_TAG,"HASH_"+bbs.get("btnSqrt")+"_");
-
-       bb = findViewById(R.id.btnCE);
-               //getResources().getIdentifier("btnSqrt" , "id", getPackageName()));
-       Log.d(LOG_TAG,"onfindViewId");
-       bb.setText(bbs.get("btnCE"));
-/*
-       for (HashMap.Entry entry : bbs.entrySet()) {
-
-           bb = findViewById(getResources().getIdentifier(entry.getKey().toString() , "id", getPackageName()));
-           Log.d(LOG_TAG,"onDataCh_3");
-           bb.setText(bbs.get(entry.getValue().toString()));
-           Log.d(LOG_TAG,"onDataCh_4");
-       }*/
    }
 
     @Override
@@ -82,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
             bound = true;
             myBindService.baseConnect();
             Log.d(LOG_TAG, "MainActivity: baseConnect");
-
-
-            //drawBtns();
-            //Log.d(LOG_TAG, "MainActivity: drawBtns()");
-
-
             Log.d(LOG_TAG, "MainActivity onServiceConnected"+bound+"_end");
         }
         @Override
@@ -104,10 +73,11 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, workBaseService.class);
         bindService(intent, sConn, BIND_AUTO_CREATE);
         Log.d(LOG_TAG, "MainActivity: onResume_"+bound+"_");  //false ???
-        if (bound) {
+       /* if (bound) {
             //myFunc
             Log.d(LOG_TAG, "MainActivity: onResume_baseConnect()________");
-        }
+        }*/
+
     }
 
     @Override

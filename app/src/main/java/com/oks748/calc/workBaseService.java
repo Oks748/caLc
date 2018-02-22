@@ -19,14 +19,13 @@ public class workBaseService extends Service {
 
     final String LOG_TAG = "myLogs";
     private final IBinder myBinder = new LocalBinder();
-    private MainActivity ma = new MainActivity();
+    private signsOfBtns ma = new signsOfBtns();
 
     private DatabaseReference ref;
     //ValueEventListener btnListener;
     HashMap<String, String> bbs = new HashMap<>();
 
-
-   public class LocalBinder extends Binder {
+    public class LocalBinder extends Binder {
         public workBaseService getService() {
             return workBaseService.this;
         }
@@ -73,15 +72,15 @@ public class workBaseService extends Service {
         Log.d(LOG_TAG,"serv_baseConnect_bbsend");
     }
 
-    public void fromBase(String a, final String b){
+    public void fromBase(String a, String b){
         ref = FirebaseDatabase.getInstance().getReference().child("buttons").child(a).child(b);
         ValueEventListener btnListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 bbs.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
-                Log.d(LOG_TAG,"onDataCh_|"+dataSnapshot.getValue(String.class)+"_"+String.valueOf(bbs.size())+"_");
+                //Log.d(LOG_TAG,"onDataCh_|"+dataSnapshot.getValue(String.class)+"_"+String.valueOf(bbs.size())+"_");
                 if(bbs.size() == 23) {
-                    Log.d(LOG_TAG,"hello");
+                    Log.d(LOG_TAG,"hello_"+String.valueOf(bbs.size())+"_");
                     ma.drawBtns(bbs);
                 }
             }
@@ -91,8 +90,6 @@ public class workBaseService extends Service {
             }
         };
         ref.addValueEventListener(btnListener);
-
-        //signsOfBtns.setHashmap(bbs);
     }
 
     //--------------------------

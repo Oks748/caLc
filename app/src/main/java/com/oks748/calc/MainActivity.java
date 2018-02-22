@@ -52,16 +52,15 @@ public class MainActivity extends AppCompatActivity {
     private ServiceConnection sConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
-            Log.d(LOG_TAG, "MainActivity onServiceConnected"+bound+"_");
-            myBindService = ((workBaseService.LocalBinder) binder).getService();
+            Log.d(LOG_TAG, "MainActivity onServiceConnected_"+bound+"_");
+            if(myBindService == null) myBindService = ((workBaseService.LocalBinder) binder).getService();
             bound = true;
             myBindService.baseConnect();
-            Log.d(LOG_TAG, "MainActivity: baseConnect");
-            Log.d(LOG_TAG, "MainActivity onServiceConnected"+bound+"_end");
+            Log.d(LOG_TAG, "MainActivity onServiceConnected_"+bound+"_end");
         }
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            Log.d(LOG_TAG, "MainActivity onServiceDisconnected"+bound+"_");
+            Log.d(LOG_TAG, "MainActivity onServiceDisconnected_"+bound+"_");
             bound = false;
         }
     };

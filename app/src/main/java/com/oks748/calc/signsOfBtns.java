@@ -17,7 +17,7 @@ public class signsOfBtns extends AppCompatActivity {
         Log.d(LOG_TAG,"bbsgetHASH_"+bbs.toString()+"_");
         Log.d(LOG_TAG,"HASH_"+bbs.get("btnSqrt")+"_");
 
-        bb = findViewById(R.id.btnSqrt);/////////??????????
+        bb = findViewById(R.id.btnSqrt);//**********************************!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //getResources().getIdentifier("btnSqrt" , "id", getPackageName()));
         Log.d(LOG_TAG,"onfindViewId");
         bb.setText(bbs.get("btnCE"));

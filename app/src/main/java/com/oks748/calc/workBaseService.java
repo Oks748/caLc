@@ -24,6 +24,8 @@ public class workBaseService extends Service {
     private DatabaseReference ref;
     //ValueEventListener btnListener;
     HashMap<String, String> bbs = new HashMap<>();
+    static boolean calledAlready = false;
+
 
     public class LocalBinder extends Binder {
         public workBaseService getService() {
@@ -39,8 +41,14 @@ public class workBaseService extends Service {
     }
 
     public void baseConnect(){
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        ref = FirebaseDatabase.getInstance().getReference().child("buttons");
+        if (!calledAlready)
+        {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            calledAlready = true;
+        }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        ref = database.getReference().child("buttons");
 
         fromBase("digits", "btn0");
         fromBase("digits", "btn1");

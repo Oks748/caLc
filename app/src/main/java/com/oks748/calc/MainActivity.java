@@ -1,6 +1,7 @@
 package com.oks748.calc;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
@@ -17,7 +18,8 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private boolean bound = false;
-    private workBaseService myBindService;
+    //private workWithBase myBase = new workWithBase();
+    private workService myBindService;
 
     private TextView screen;
     private String num1 = "";
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
     public static String LOG_TAG = "myLogs";
+    Context currentContext;
+    //signsOfBtns mL = new signsOfBtns(MainActivity.this,this);
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(LOG_TAG, "MainActivity: onStart()");
     }
-
     private ServiceConnection sConn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             Log.d(LOG_TAG, "MainActivity onServiceConnected_"+bound+"_");
-            if(myBindService == null) myBindService = ((workBaseService.LocalBinder) binder).getService();
+            if(myBindService == null) myBindService = ((workService.LocalBinder) binder).getService();
             bound = true;
             myBindService.baseConnect();
             Log.d(LOG_TAG, "MainActivity onServiceConnected_"+bound+"_end");
@@ -64,19 +67,13 @@ public class MainActivity extends AppCompatActivity {
             bound = false;
         }
     };
-
     @Override
     protected void onResume() {
         super.onResume();
         screen.setText("hello");
-        Intent intent = new Intent(this, workBaseService.class);
+        Intent intent = new Intent(this, workService.class);
         bindService(intent, sConn, BIND_AUTO_CREATE);
         Log.d(LOG_TAG, "MainActivity: onResume_"+bound+"_");  //false ???
-       /* if (bound) {
-            //myFunc
-            Log.d(LOG_TAG, "MainActivity: onResume_baseConnect()________");
-        }*/
-
     }
 
     @Override

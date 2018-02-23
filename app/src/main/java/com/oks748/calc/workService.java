@@ -6,6 +6,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,30 +19,32 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class workBaseService extends Service {
+import static com.oks748.calc.MainActivity.LOG_TAG;
 
-    final String LOG_TAG = "myLogs";
+public class workService extends Service {
+
     private final IBinder myBinder = new LocalBinder();
-    private signsOfBtns ma = new signsOfBtns();
+    //private signsOfBtns ma = new signsOfBtns();
 
-    private DatabaseReference ref;
+    // = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+    // layout;//  = inflater.inflate(R.layout.activity_main, null);
+
+    //Activity activity = MainActivity.this;
+    //Intent intent = new Intent(this, MainActivity.class);
+   // bindService(intent,
+
+    LayoutInflater inflater;
+    //LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+    View layout;
+    //View layout = inflater.inflate(R.layout.activity_main, null);
+
+     private DatabaseReference ref;
     //ValueEventListener btnListener;
     HashMap<String, String> bbs = new HashMap<>();
     static boolean calledAlready = false;
 
-
-    public class LocalBinder extends Binder {
-        public workBaseService getService() {
-            return workBaseService.this;
-        }
-    }
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.d(LOG_TAG, "servonBind");
-        return myBinder;
-    }
+    Button bb;
+    TextView txv;
 
     public void baseConnect(){
         if (!calledAlready)
@@ -46,9 +52,9 @@ public class workBaseService extends Service {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             calledAlready = true;
         }
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        ref = database.getReference().child("buttons");
+        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        layout = inflater.inflate(R.layout.activity_main, null);
 
         fromBase("digits", "btn0");
         fromBase("digits", "btn1");
@@ -77,7 +83,7 @@ public class workBaseService extends Service {
         fromBase("specOper", "btnSign");
         fromBase("specOper", "btnSqrt");
 
-        Log.d(LOG_TAG,"serv_baseConnect_bbsend");
+        Log.d(LOG_TAG,"baseConnect_end");
     }
 
     public void fromBase(String a, String b){
@@ -86,10 +92,20 @@ public class workBaseService extends Service {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 bbs.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
-                //Log.d(LOG_TAG,"onDataCh_|"+dataSnapshot.getValue(String.class)+"_"+String.valueOf(bbs.size())+"_");
+
+                bb = layout.findViewById(getResources().getIdentifier(dataSnapshot.getKey().toString() , "id", getPackageName()));
+                Log.d(LOG_TAG,"onDataCh_f_"+bb.toString()+"_");
+                bb.setText(bbs.get(dataSnapshot.getKey()));
+                Log.d(LOG_TAG,"onDataCh_set_"+dataSnapshot.getKey()+"_"+bbs.get(dataSnapshot.getKey())+"_");
+
+
                 if(bbs.size() == 23) {
                     Log.d(LOG_TAG,"hello_"+String.valueOf(bbs.size())+"_");
-                    ma.drawBtns(bbs);
+                    txv = layout.findViewById(R.id.textView);
+                    txv.setText("fg");
+                    Log.d(LOG_TAG,"bbsgetHASH_"+bbs.toString()+"_");
+
+                    //ma.drawBtns(bbs, workBaseService.this);
                 }
             }
             @Override
@@ -100,7 +116,22 @@ public class workBaseService extends Service {
         ref.addValueEventListener(btnListener);
     }
 
-    //--------------------------
+
+    //***********************************************
+
+    public class LocalBinder extends Binder {
+        public workService getService() {
+            return workService.this;
+        }
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        Log.d(LOG_TAG, "servonBind");
+        return myBinder;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();

@@ -8,18 +8,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static String LOG = "mylogs";
     private TextView screen;
     private String num1 = "";
     private String num2 = "";
@@ -28,9 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean pressSDPS = false;
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
-    private DatabaseReference ref;
-    private Button bb;
-    private Map<String, String> bbs = new HashMap<>();
 
     @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -43,53 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         screen = findViewById(R.id.textView);
         screen.setText(num1);
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        ref = FirebaseDatabase.getInstance().getReference().child("buttons");
 
-        fromBase("digits", "btn0");
-        fromBase("digits", "btn1");
-        fromBase("digits", "btn2");
-        fromBase("digits", "btn3");
-        fromBase("digits", "btn4");
-        fromBase("digits", "btn5");
-        fromBase("digits", "btn6");
-        fromBase("digits", "btn7");
-        fromBase("digits", "btn8");
-        fromBase("digits", "btn9");
-
-        fromBase("dot", "btnDot");
-
-        fromBase("operators4", "btnDiv");
-        fromBase("operators4", "btnMinus");
-        fromBase("operators4", "btnMult");
-        fromBase("operators4", "btnPlus");
-
-        fromBase("specOper", "btn1Div");
-        fromBase("specOper", "btnBack1");
-        fromBase("specOper", "btnC");
-        fromBase("specOper", "btnCE");
-        fromBase("specOper", "btnIs");
-        fromBase("specOper", "btnPercent");
-        fromBase("specOper", "btnSign");
-        fromBase("specOper", "btnSqrt");
+        baseBind bB = new baseBind(this);
+        bB.baseConnect();
     }
-
-   public void fromBase(String a, final String b){
-        ref.child(a).child(b).addValueEventListener( new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("tg","onDataCh");
-                bbs.put(dataSnapshot.getKey(), dataSnapshot.getValue(String.class));
-                bb = findViewById(getResources().getIdentifier(b, "id", getPackageName()));
-                bb.setText(bbs.get(b));
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                Log.d("tg","onCancelled");
-                Toast.makeText(MainActivity.this, "_Cancelled_", Toast.LENGTH_LONG).show();
-            }
-        });
-   }
 
    @Override
    protected void onSaveInstanceState(Bundle outState) {
@@ -214,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
             case "÷": try{
                     return Double.valueOf(num1) / Double.valueOf(num2);
                 } catch (Exception e){
-                    Log.d("Calc", e.getMessage());
+                    Log.d(LOG, e.getMessage());
                     Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
                 }
             default: return 0;
@@ -261,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
            try {
                num2 = String.valueOf(1 / Double.valueOf(num2));
            } catch (Exception e) {
-               Log.d("Calc", e.getMessage());
+               Log.d(LOG, e.getMessage());
                Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
            }
            noReadnum2 = true;
@@ -276,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
                try {
                    num1 = String.valueOf(1 / Double.valueOf(num1));
                } catch (Exception e) {
-                   Log.d("Calc", e.getMessage());
+                   Log.d(LOG, e.getMessage());
                    Toast.makeText(this, "Ділення на нуль", Toast.LENGTH_LONG).show();
                }
                num1 = num1.indexOf(".") < 0 ? num1 : num1.replaceAll("0*$", "").replaceAll("\\.$", "");

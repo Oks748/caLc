@@ -35,7 +35,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="0"
+
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="25sp"
@@ -53,7 +53,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="1"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -68,7 +68,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="2"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -84,7 +84,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="3"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
@@ -101,7 +101,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="4"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -117,7 +117,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="5"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -133,7 +133,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="6"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
@@ -150,7 +150,7 @@
         android:backgroundTint="#0e490f"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="7"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
@@ -167,7 +167,7 @@
         android:focusableInTouchMode="false"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="8"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
@@ -183,7 +183,7 @@
         android:focusableInTouchMode="false"
         android:fontFamily="@font/architects_daughter"
         android:onClick="onClickNumber"
-        android:text="9"
+
         android:textColor="#000000"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"

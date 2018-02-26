@@ -1,6 +1,10 @@
 package com.oks748.calc;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -22,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean noReadnum1 = false;
     private boolean noReadnum2 = false;
 
+    private boolean bound = false;
+    private serviceBind myBindService;
+    baseBind bB = new baseBind(this);
+
     @Override
    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +42,46 @@ public class MainActivity extends AppCompatActivity {
         screen = findViewById(R.id.textView);
         screen.setText(num1);
 
-        baseBind bB = new baseBind(this);
-        bB.baseConnect();
+
     }
+
+   private ServiceConnection sConn = new ServiceConnection() {
+       @Override
+       public void onServiceConnected(ComponentName name, IBinder binder) {
+           Log.d(LOG, "MainActivity onServiceConnected_" + bound + "_");
+           if (myBindService == null)
+               myBindService = ((serviceBind.LocalBinder) binder).getService();
+           bound = true;
+
+           bB.baseConnect();
+           Log.d(LOG, "MainActivity onServiceConnected_" + bound + "_end");
+       }
+
+       @Override
+       public void onServiceDisconnected(ComponentName name) {
+           Log.d(LOG, "MainActivity onServiceDisconnected_" + bound + "_");
+           bound = false;
+       }
+   };
+
+   @Override
+   protected void onResume() {
+        super.onResume();
+        Intent intent = new Intent(this, serviceBind.class);
+        bindService(intent, sConn, BIND_AUTO_CREATE);
+        Log.d(LOG, "MainActivity: onResume_"+bound+"_");  //false ???
+   }
+
+   @Override
+   protected void onPause() {
+        super.onPause();
+        Log.d(LOG, "MainActivity: onPause()_"+bound+"_begin");
+        if (bound){
+            unbindService(sConn);
+            bound = false;
+        }
+        Log.d(LOG, "MainActivity: onPause()_"+bound+"_end");
+   }
 
    @Override
    protected void onSaveInstanceState(Bundle outState) {
@@ -48,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         outState.putBoolean("pressIs", pressIs);
         outState.putBoolean("pressSDPS", pressSDPS);
         outState.putString("screen",screen.getText().toString());
+       outState.putBoolean("bound", bound);
         super.onSaveInstanceState(outState);
     }
 
@@ -62,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         pressIs = savedInstanceState.getBoolean("pressIs");
         pressSDPS = savedInstanceState.getBoolean("pressSDPS");
         screen.setText(savedInstanceState.getString("screen"));
+       bound = savedInstanceState.getBoolean("bound");
     }
 
    public void onClickNumber(View v) {
